@@ -72,7 +72,7 @@ d3.json('mcpp.geojson').then(async function(json) {
 
         let myColor = d3.scaleLinear()
             .domain([mcppCountsSorted[mcppCountsSorted.length - 1].count, mcppCountsSorted[0].count])
-            .range(["#ADD8E6","#8B0000"]);
+            .range(["white","#8B0000"]);
 
         // Create the MCPP path regions
         const path = g.selectAll('path')
