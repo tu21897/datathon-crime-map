@@ -1,0 +1,41 @@
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+}
+
+.leaflet-overlay-pane svg path{
+    pointer-events: auto;
+}
+
+.current {
+    display: grid;
+    align-items: center;
+    width: 350px;
+    height: 40px;
+    background-color: #111;
+    position: absolute;
+    top: 0;
+    left: calc(50% - 175px);
+    z-index: 999;
+    border-radius: 0 0 100px 100px;
+}
+
+.cc {
+    padding: 8px;
+    text-align: center;
+}
+
+.c {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 200px;
+    z-index: 9999;
+    background-color: #111;
+    opacity: 80%;
+    color: white;
+    border: none;
+    text-align: center;
+    border-radius: 0 100px 0 0;
+}
