@@ -12,7 +12,7 @@ body {
     display: grid;
     align-items: center;
     width: 350px;
-    height: 40px;
+    height: 45px;
     background-color: #111;
     position: absolute;
     top: 0;
@@ -58,8 +58,14 @@ select:focus{
     outline:none;
 }
 
+.mcpp-count {
+    padding-bottom: 5px;
+    text-align: center;
+}
+
 .cc {
-    padding: 8px;
+    padding: 5px;
+    padding-bottom: 0;
     text-align: center;
 }
 

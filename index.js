@@ -1,6 +1,7 @@
 // coordinates for seattle to center the map
 const home = {lat: 47.646197, long:-122.312542, zoom:13};
 const currentHighlighted = document.querySelector('.cc');
+const currentCount = document.querySelector('.mcpp-count');
 
 // base map element on the DOM
 let map = L.map('map', {
@@ -12,7 +13,6 @@ d3.json('mcpp.geojson').then(async function(json) {
     let mcppCountsSorted = [];
     let mcppCounts = {};
 
-    const mcppNames = json.features.map(d => d.properties.NAME);
     const getMapData = async (date1, date2) => {
         mcppCounts = {};
         const startTime = picker.getStartDate().dateInstance.toISOString().slice(0,10);
@@ -87,6 +87,7 @@ d3.json('mcpp.geojson').then(async function(json) {
             .on("mouseover", function(e, d) {
                 d3.select(this).attr("fill-opacity", 0.2)
                 currentHighlighted.textContent = d.properties.NAME;
+                currentCount.textContent = `(${mcppCounts[d.properties.NAME]} Total Incidents)`;
             })
             .on("mouseout", function(d) {
                 d3.select(this).attr("fill-opacity", 0.5)
