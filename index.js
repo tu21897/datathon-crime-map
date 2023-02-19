@@ -96,7 +96,7 @@ d3.json('mcpp.geojson').then(async function(json) {
                 const startTime = picker.getStartDate().dateInstance.toISOString().slice(0,10);
                 const endTime = picker.getEndDate().dateInstance.toISOString().slice(0,10);
                 // add MCPP onclick events here, d3.select(this).attr() changes the style of the selected element
-                const response = await fetch(`https://data.seattle.gov/resource/tazs-3rd5.json?mcpp=${d.properties.NAME}&$where=offense_start_datetime%20%3E=%20%27${startTime}T00:00:00%27%20and%20offense_start_datetime%3C=%27${endTime}T00:00:00%27&$limit=${10000}`);
+                const response = await fetch(`https://data.seattle.gov/resource/tazs-3rd5.json?mcpp=${d.properties.NAME}&$where=offense_start_datetime%20%3E=%20%27${startTime}T00:00:00%27%20and%20offense_start_datetime%3C=%27${endTime}T00:00:00%27&$limit=${1000000}`);
                 const data = await response.json();
                 let mcppOffCounts = {};
                 data.forEach(d => {mcppOffCounts[d.offense] ? (mcppOffCounts[d.offense] += 1):(mcppOffCounts[d.offense] = 1)});
