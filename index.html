@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="crossorigin=""></script>
+    </head>
+    <body>
+      <div id="map" style="height:100vh;"></div>
+      <script>
+        // coordinates for seattle to center the map
+        home = {lat: 47.646197, long:-122.312542, zoom:13};
+
+        // base map element on the DOM
+        let map = L.map('map', {
+                zoomControl: false,
+                minZoom: 10
+            }).setView([home.lat, home.long], home.zoom);
+
+            // leaflet map overlay
+            L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
+                maxZoom: 20
+            }).addTo(map);
+            L.svg({clickable:true}).addTo(map);
+
+            d3.json('mcpp.geojson').then(function(json) {
+                const projectPoint = function(x, y) {
+                        const point = map.latLngToLayerPoint(new L.LatLng(y, x))
+                        this.stream.point(point.x, point.y)
+                    };
+                let projection = d3.geoTransform({point: projectPoint});
+                let geoGenerator = d3.geoPath().projection(projection);
+                
+                const overlay = d3.select(map.getPanes().overlayPane);
+              
+                const svg = overlay.select('svg').attr("pointer-events", "auto"),
+                        g = svg.append('g').attr('class', 'leaflet-zoom-hide');
+                
+                // Create the MCPP path regions
+                const path = g.selectAll('path')
+                    .data(json.features)
+                    .enter()
+                    .append('path')
+                    .attr('d', geoGenerator)
+                    .attr('fill-opacity', 0.2)
+                    .attr('fill', 'steelblue')
+                    .attr('stroke', '#fff')
+                    .attr('stroke-width', .3)
+                    .on("mouseover", function(d) {
+                        d3.select(this).attr("fill-opacity", 1.0)
+                    
+                    })
+                    .on("mouseout", function(d) {
+                        d3.select(this).attr("fill-opacity", 0.2)
+                    })
+                    .on("click", function(e, d) {
+                        // add MCPP onclick events here, d3.select(this).attr() changes the style of the selected element
+                        return
+                    });
+                const onZoom = () => {path.attr('d', geoGenerator);}
+                onZoom()
+                map.on('zoomend', onZoom)
+            });
+      </script>
+    </body>
+    <style>
+      body {
+        margin: 0;
+        font-family: sans-serif;
+      }
+      .leaflet-overlay-pane svg path{
+          pointer-events: auto;
+      }
+    </style>
+</html>
