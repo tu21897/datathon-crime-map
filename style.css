@@ -46,7 +46,6 @@ body {
     bottom: 50px;
     justify-content: center;
     font-weight: bolder;
-    border-top: 0.1px solid white;
 }
 
 .crime-value::after {
