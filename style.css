@@ -26,11 +26,26 @@ body {
     text-align: center;
 }
 
-.c {
+.legend {
+    display: grid;
+    align-items: center;
+    width: 354px;
+    background-color: #111;
     position: absolute;
+    justify-content: center;
+    border-radius: 0;
+    height: 50px;
     bottom: 0;
     left: 0;
-    width: 200px;
+    z-index: 999;
+    opacity: 80%;
+}
+
+.c {
+    position: absolute;
+    bottom: 50px;
+    left: 0;
+    width: 350px;
     z-index: 9999;
     background-color: #111;
     opacity: 80%;

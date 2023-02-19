@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "d3-color-legend": "^1.4.1",
     "lightpick": "^1.6.2"
   }
 }
