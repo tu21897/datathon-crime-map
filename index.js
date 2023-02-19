@@ -17,9 +17,12 @@ d3.json('mcpp.geojson').then(async function(json) {
         mcppCounts = {};
         const startTime = picker.getStartDate().dateInstance.toISOString().slice(0,10);
         const endTime = picker.getEndDate().dateInstance.toISOString().slice(0,10);
-        const response = await fetch(`https://data.seattle.gov/resource/tazs-3rd5.json?$where=offense_start_datetime%20%3E=%20%27${startTime}T00:00:00%27%20and%20offense_start_datetime%3C=%27${endTime}T00:00:00%27&$limit=${100000}`);
+        const response = await fetch(`https://data.seattle.gov/resource/tazs-3rd5.json?$where=offense_start_datetime%20%3E=%20%27${startTime}T00:00:00%27%20and%20offense_start_datetime%3C=%27${endTime}T00:00:00%27&$limit=${10000000}`);
         const data = await response.json();
         data.forEach(d => {mcppCounts[d.mcpp] ? (mcppCounts[d.mcpp] += 1):(mcppCounts[d.mcpp] = 1)});
+        let mcppOffCounts = {};
+        data.forEach(d => {mcppOffCounts[d.offense] ? (mcppOffCounts[d.offense] += 1):(mcppOffCounts[d.offense] = 1)});
+        console.log(mcppOffCounts);
         return Object.entries(mcppCounts).map(d => new Object({name:d[0], count:d[1]})).sort((a,b) => b.count-a.count);
     }
 
@@ -94,7 +97,9 @@ d3.json('mcpp.geojson').then(async function(json) {
                 // add MCPP onclick events here, d3.select(this).attr() changes the style of the selected element
                 const response = await fetch(`https://data.seattle.gov/resource/tazs-3rd5.json?mcpp=${d.properties.NAME}&$where=offense_start_datetime%20%3E=%20%27${startTime}T00:00:00%27%20and%20offense_start_datetime%3C=%27${endTime}T00:00:00%27&$limit=${10000}`);
                 const data = await response.json();
-                console.log(data);
+                let mcppOffCounts = {};
+                data.forEach(d => {mcppOffCounts[d.offense] ? (mcppOffCounts[d.offense] += 1):(mcppOffCounts[d.offense] = 1)});
+                document.querySelector('.crime-value').textContent = mcppOffCounts[document.getElementById('crimes').value];
             });
 
             const onZoom = () => {path.attr('d', geoGenerator)};
